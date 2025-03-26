@@ -20,9 +20,40 @@ namespace Invoices.Search
     /// </summary>
     public partial class wndSearch : Window
     {
+        /// <summary>
+        /// This variable will be accessible to the main window.
+        /// When an invoice is selected the selectedInvoiceID will be updated with the appropraite value.
+        /// If the value remains nevative one, no invoice was selected.
+        /// </summary>
+        public static int selectedInvoiceID = -1;
+
+
         public wndSearch()
         {
             InitializeComponent();
+        }
+
+        /// <summary>
+        /// Hides the wndSearch Screen.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            this.Hide();
+        }
+
+        /// <summary>
+        /// Updates selectedInvoideID and hides wndSearch Screen.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnSelect_Click(object sender, RoutedEventArgs e)
+        {
+            // Invoide ID will be stored in a static variable
+            // wndMain will access the invoice ID through the static variable
+            //TODO: Update selectedInvoiceID
+            this.Hide();
         }
     }
 }
