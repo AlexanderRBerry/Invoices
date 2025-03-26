@@ -7,6 +7,7 @@ using Exception_Handler;
 
 namespace Invoices.Search
 {
+
     public class clsSearchLogic
     {
         
