@@ -8,5 +8,6 @@ namespace Invoices.Items
 {
     internal class clsItemsLogic
     {
+        //swag
     }
 }
