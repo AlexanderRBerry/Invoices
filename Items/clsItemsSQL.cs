@@ -8,6 +8,84 @@ namespace Invoices.Items
 {
     internal class clsItemsSQL
     {
+
+        /**
+         * 
+         * Items Window
+- select ItemCode, ItemDesc, Cost from ItemDesc
+- select distinct(InvoiceNum) from LineItems where ItemCode = 'A'
+- Update ItemDesc Set ItemDesc = 'abcdef', Cost = 123 where ItemCode = 'A'
+- Insert into ItemDesc (ItemCode, ItemDesc, Cost) Values ('ABC', 'blah', 321)
+- Delete from ItemDesc Where ItemCode = 'ABC'
+         * 
+         */
+
+        //tables
+            //tableName
+                //column1, column2....
+
+            //Invoices
+            //ItemDesc
+                //ItemCode, ItemDesc, Cost
+            //LineItems
+                //InvoiceNum, LineItemNum?, ItemCode
+
+
+        
+
+        //----------------------------------------------Check for ' and , around itemCode (and desc maybe??) if problems, very hard to see----------------------------//
+
+        
+        /// ???? comments not working for me for this only?
+        public string GetItemDescTableSQL(string itemCode, string itemDesc, double itemCost)
+        {
+            return "SELECT '" + itemCode + "', " + itemDesc + ", " + itemCost + "FROM ItemDesc"; //should I make the table a string and pass it in as well?
+        }
+
+        /// <summary>
+        /// SQL for getting unique invoice numbers from the table LineItems using item code
+        /// </summary>
+        /// <param name="itemCode"></param>
+        /// <returns></returns>
+        public string GetUniqueInvoiceNums(string itemCode)
+        {
+            return "SELECT DISTINCT InvoiceNum FROM LineItems WHERE ItemCode =  '" + itemCode + "'";
+        }
+
+        /// <summary>
+        /// SQL for updating description and cost from the table ItemDesc using item code
+        /// </summary>
+        /// <param name="itemDesc"></param>
+        /// <param name="itemCost"></param>
+        /// <param name="itemCode"></param>
+        /// <returns></returns>
+        public string UpdateDescCost(string itemDesc, double itemCost, string itemCode)
+        {
+            return "UPDATE ItemDesc SET ItemDesc = '" + itemDesc + "', Cost = " + itemCost + " WHERE ItemCode = '" + itemCode + "'";
+        }
+
+        /// <summary>
+        /// SQL for inserting itemCode, itemDesc, and cost into the ItemDesc Table
+        /// </summary>
+        /// <param name="itemCode"></param>
+        /// <param name="itemDesc"></param>
+        /// <param name="itemCost"></param>
+        /// <returns></returns>
+        public string InsertCodeDescCost(string itemCode, string itemDesc, double itemCost)
+        {
+            return "INSERT INTO ItemDesc (ItemCode, ItemDesc, Cost) VALUES ('" + itemCode + "', " + itemDesc + ", " + itemCost + ")";
+        }
+
+        /// <summary>
+        /// SQL for deleting item from table ItemDesc using itemCode
+        /// </summary>
+        /// <param name="itemCode"></param>
+        /// <returns></returns>
+        public string DeleteItem(string itemCode)
+        {
+            return "DELETE FROM ItemDesc WHERE ItemCode = '" + itemCode + "'";
+        }
+
     }
 }
 
