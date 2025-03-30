@@ -25,5 +25,18 @@ namespace Invoices.Main
             InitializeComponent();
 
         }
+        //after search window is closed, check property SelectedInvoiceID in the search window to see if an invoice is selected. If so load the invoice
+
+        //after items window is closed, check property HasItemsBeenChanged in the Items window to see if any items were updated. If so re-load items in combo box.
+
+        private void btnEditInvoice_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnSaveInvoice_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

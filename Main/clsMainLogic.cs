@@ -8,5 +8,9 @@ namespace Invoices.Main
 {
     public class clsMainLogic
     {
+        //GetAllItems returns List<clsItem>
+        //SaveNewInvoice(clsInvoice)
+        //EditInvoice(clsOldInvoice, clsNewInvoice)
+        //GetInvoice(InvoiceNumber) returns clsInvoice - Get the invoice and items for the selected invoice from search window
     }
 }

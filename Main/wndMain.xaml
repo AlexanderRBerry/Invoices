@@ -5,8 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Invoices.Main"
         mc:Ignorable="d"
-        Title="wndMain" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        Title="MainWindow" Height="378" Width="800">
+    <Canvas>
+        <DataGrid d:ItemsSource="{d:SampleData ItemCount=5}" Canvas.Left="428" Canvas.Top="195"/>
+        <Label x:Name="lblFilter" Content="Items on Invoice:" Canvas.Left="400" Canvas.Top="164" FontSize="16" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+        <Label x:Name="lblInvoiceNumber" Content="Items:" Canvas.Left="71" Canvas.Top="222" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <ComboBox x:Name="cbInvoiceNumber" Width="120" Canvas.Left="138" Canvas.Top="231" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <Button x:Name="btnClearFilter" Content="Add Item" Canvas.Left="284" Canvas.Top="229" FontSize="14" FontWeight="Bold" Width="88" Height="26" HorizontalAlignment="Center" VerticalAlignment="Top" RenderTransformOrigin="0.508,0.752"/>
+        <Button x:Name="btnEditInvoice" Content="Edit Invoice" Canvas.Left="260" Canvas.Top="32" FontSize="14" FontWeight="Bold" Width="88" Height="26" HorizontalAlignment="Center" VerticalAlignment="Top" Click="btnEditInvoice_Click"/>
+        <Button x:Name="btnSaveInvoice" Content="Save Invoice" Canvas.Left="400" Canvas.Top="32" FontSize="14" FontWeight="Bold" Width="88" Height="26" HorizontalAlignment="Left" VerticalAlignment="Top" Click="btnSaveInvoice_Click"/>
+        <Label Content="Invoice Date" Canvas.Left="58" Canvas.Top="98" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+        <Label Content="Invoice Number" Canvas.Left="36" Canvas.Top="133" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <Label Content="Total Cost:" Canvas.Left="71" Canvas.Top="167" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <Button x:Name="btnClearFilter_Copy" Content="Remove Item" Canvas.Left="284" Canvas.Top="271" FontSize="14" FontWeight="Bold" Width="114" Height="26" RenderTransformOrigin="0.508,0.752" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+        <Label x:Name="lblInvoiceNumber_Copy" Content="Cost:" Canvas.Left="67" Canvas.Top="268" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+
+    </Canvas>
 </Window>
