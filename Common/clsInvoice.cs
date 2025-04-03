@@ -38,7 +38,7 @@ namespace Invoices.Common
         /// <summary>
         /// Getter/Setter for sInvoiceDate
         /// </summary>
-        public string InvoiceDate
+        public string invoiceDate
         {
             get { return sInvoiceDate; }
             set { sInvoiceDate = value; }
@@ -47,7 +47,7 @@ namespace Invoices.Common
         /// <summary>
         /// Getter/Setter for sTotalCost
         /// </summary>
-        public string TotalCost
+        public string totalCost
         {
             get { return sTotalCost; }
             set { sTotalCost = value; }

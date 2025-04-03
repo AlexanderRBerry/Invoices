@@ -23,7 +23,7 @@ namespace Invoices.Main
         public wndMain()
         {
             InitializeComponent();
-
+            Application.Current.ShutdownMode = ShutdownMode.OnMainWindowClose; // Ensures complete shutdown
         }
         //after search window is closed, check property SelectedInvoiceID in the search window to see if an invoice is selected. If so load the invoice
 
@@ -37,6 +37,12 @@ namespace Invoices.Main
         private void btnSaveInvoice_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void openSearch_Click(object sender, RoutedEventArgs e)
+        {
+            wndSearch searchWindow = new wndSearch();
+            searchWindow.ShowDialog();
         }
     }
 }

@@ -19,6 +19,7 @@
         <Label Content="Total Cost:" Canvas.Left="71" Canvas.Top="167" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <Button x:Name="btnClearFilter_Copy" Content="Remove Item" Canvas.Left="284" Canvas.Top="271" FontSize="14" FontWeight="Bold" Width="114" Height="26" RenderTransformOrigin="0.508,0.752" HorizontalAlignment="Center" VerticalAlignment="Top"/>
         <Label x:Name="lblInvoiceNumber_Copy" Content="Cost:" Canvas.Left="67" Canvas.Top="268" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+        <Button x:Name="openSearch" Content="Open Search" Canvas.Left="592" Canvas.Top="58" Click="openSearch_Click"/>
 
     </Canvas>
 </Window>
