@@ -38,11 +38,5 @@ namespace Invoices.Main
         {
 
         }
-
-        private void openSearch_Click(object sender, RoutedEventArgs e)
-        {
-            wndSearch searchWindow = new wndSearch();
-            searchWindow.ShowDialog();
-        }
     }
 }
