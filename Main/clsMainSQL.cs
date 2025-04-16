@@ -8,6 +8,10 @@ namespace Invoices.Main
 {
     public class clsMainSQL
     {
+        public string GetItemsSQL()
+        {
+            return "SELECT * FROM ItemDesc";
+        }
         /// <summary>
         /// SQL to update cost of invoice matching an invoice number
         /// </summary>
@@ -27,6 +31,11 @@ namespace Invoices.Main
             return "INSERT INTO LineItems (InvoiceNum, LineItemNum, ItemCode) Values(" + invoiceNum + ", " + lineItemNum + ", '" + itemCode + "')";
         }
 
+        public string RemoveItemsSQL(string itemCode)
+        {
+            return "DELET FROM LineItems WHERE ItemCode = " + itemCode;
+        }
+
         /// <summary>
         /// SQL to insert into Invoices
         /// </summary>
@@ -43,6 +52,11 @@ namespace Invoices.Main
         public string GetInvoiceSQL(int invoiceNum)
         {
             return "SELECT InvoiceNum, InvoiceDate, TotalCost FROM Invoices WHERE InvoiceNum = " + invoiceNum;
+        }
+
+        public string GetInvoiceNumSQL(string date)
+        {
+            return "SELECT InvoiceNum FROM Invoices WHERE InvoiceDate = " + date;
         }
 
         /// <summary>
