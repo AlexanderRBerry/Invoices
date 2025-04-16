@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Search" Height="450" Width="800">
     <Canvas>
-        <DataGrid x:Name="dgInvoices" CanUserAddRows="False" d:ItemsSource="{d:SampleData ItemCount=10}" Canvas.Left="49" Canvas.Top="88"/>
+        <DataGrid x:Name="dgInvoices" IsReadOnly="True" CanUserAddRows="False" d:ItemsSource="{d:SampleData ItemCount=10}" Canvas.Left="49" Canvas.Top="88"/>
         <Label x:Name="lblFilter" Content="Filter:" Canvas.Left="490" Canvas.Top="102" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Top"/>
         <Label x:Name="lblInvoiceNumber" Content="Invoice Number:" Canvas.Left="490" Canvas.Top="138" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <Label x:Name="lblInvoiceDate" Content="Invoice Date:" Canvas.Left="490" Canvas.Top="181" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Top"/>
