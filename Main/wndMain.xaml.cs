@@ -16,6 +16,8 @@ using Invoices.Common;
 using System.Reflection;
 using Invoices.Items;
 
+using GalaSoft.MvvmLight.Command;
+
 namespace Invoices.Main
 {
     /// <summary>
@@ -25,9 +27,11 @@ namespace Invoices.Main
     {
         wndSearch search;
         wndItems items;
+        private List<clsItem> addItems = new List<clsItem>();
+
         int invoiceNumber;
         int lineItem = 1;
-        int totalCost = 0;
+        double totalCost = 0;
         public wndMain()
         {
             InitializeComponent();
@@ -52,7 +56,7 @@ namespace Invoices.Main
 
         private void btnSaveInvoice_Click(object sender, RoutedEventArgs e)
         {
-
+            dgInvoice.ItemsSource = addItems;
         }
 
         private void btnCreateInvoice_Click(object sender, RoutedEventArgs e)
@@ -66,6 +70,7 @@ namespace Invoices.Main
             PopulateNewInvoice(invoiceNum);
             invoiceNumber = invoiceNum;
             InvoiceNumber.Content = "TBD";
+            
         }
 
         private void cbItems_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -131,27 +136,25 @@ namespace Invoices.Main
 
         private void btnAddItem_Click(object sender, RoutedEventArgs e)
         {
+            
+            
             string selected = cbItems.SelectedItem.ToString();
-            string itemCode = "";
             string cost = "";
-            string description = "";
-            clsItem item = null;
-            List<clsItem> newInvoice = new List<clsItem>();
+            
             clsMainLogic mainLogic = new clsMainLogic();
             List<clsItem> itemDetails = mainLogic.GetAllItems();
             for (int i = 0; i < itemDetails.Count; i++)
             {
                 if (selected == itemDetails[i].itemDescription)
-                { 
-                    itemCode = itemDetails[i].itemCode; 
-                    description = itemDetails[i].itemDescription; 
+                {
                     cost = itemDetails[i].cost;
-                    dgInvoice.Items.Add(itemDetails[i]);
-                    newInvoice.Add(itemDetails[i]);
+                    addItems.Add(itemDetails[i]);
+                    
                 }
+                
             }
-
-            int c = Int32.Parse(cost);
+            dgInvoice.ItemsSource = addItems;
+            double c = double.Parse(cost);
             totalCost += c;
             TotalCost.Content = "$" + totalCost;
         }

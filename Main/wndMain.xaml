@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="378" Width="800">
     <Canvas>
-        <DataGrid Name="dgInvoice" d:ItemsSource="{d:SampleData ItemCount=5}" Canvas.Left="428" Canvas.Top="195"/>
+        <DataGrid Name="dgInvoice" d:ItemsSource="{Binding AddItems}" Canvas.Left="428" Canvas.Top="195"/>
         <Label x:Name="lblFilter" Content="Items on Invoice:" Canvas.Left="418" Canvas.Top="169" FontSize="16" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <Label x:Name="lblInvoiceNumber" Content="Items:" Canvas.Left="101" Canvas.Top="158" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Top"/>
         <ComboBox x:Name="cbItems" Width="120" Canvas.Left="143" Canvas.Top="158" HorizontalAlignment="Center" VerticalAlignment="Top" SelectionChanged="cbItems_SelectionChanged"/>
