@@ -25,6 +25,9 @@ namespace Invoices.Main
     {
         wndSearch search;
         wndItems items;
+        int invoiceNumber;
+        int lineItem = 1;
+        int totalCost = 0;
         public wndMain()
         {
             InitializeComponent();
@@ -61,6 +64,8 @@ namespace Invoices.Main
             clsMainLogic.SaveNewInvoice(date);
             invoiceNum = clsMainLogic.GetInvoiceNumber(date);
             PopulateNewInvoice(invoiceNum);
+            invoiceNumber = invoiceNum;
+            InvoiceNumber.Content = "TBD";
         }
 
         private void cbItems_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -76,11 +81,10 @@ namespace Invoices.Main
         }
 
         //Populating certain invoice
-        private void PopulateInvoice()
+        private void PopulateInvoice(int num)
         {
             clsMainLogic mainLogic = new clsMainLogic();
-            wndSearch invoiceNum = new wndSearch();
-            List<clsItem> invoice = mainLogic.GetInvoice(invoiceNum.selectedInvoiceID);
+            List<clsItem> invoice = mainLogic.GetInvoice(num);
             dgInvoice.ItemsSource = invoice;
         }
         //populate invoice given invoicenum
@@ -99,8 +103,8 @@ namespace Invoices.Main
                 search = new wndSearch();
                 search.ShowDialog();
                 int invoice = 0;
-                invoice = wndSearch.selectedInvoiceID;
-                PopulateInvoice();
+                invoice = search.selectedInvoiceID;
+                PopulateInvoice(invoice);
             }
             catch (Exception ex)
             {
@@ -127,7 +131,29 @@ namespace Invoices.Main
 
         private void btnAddItem_Click(object sender, RoutedEventArgs e)
         {
+            string selected = cbItems.SelectedItem.ToString();
+            string itemCode = "";
+            string cost = "";
+            string description = "";
+            clsItem item = null;
+            List<clsItem> newInvoice = new List<clsItem>();
+            clsMainLogic mainLogic = new clsMainLogic();
+            List<clsItem> itemDetails = mainLogic.GetAllItems();
+            for (int i = 0; i < itemDetails.Count; i++)
+            {
+                if (selected == itemDetails[i].itemDescription)
+                { 
+                    itemCode = itemDetails[i].itemCode; 
+                    description = itemDetails[i].itemDescription; 
+                    cost = itemDetails[i].cost;
+                    dgInvoice.Items.Add(itemDetails[i]);
+                    newInvoice.Add(itemDetails[i]);
+                }
+            }
 
+            int c = Int32.Parse(cost);
+            totalCost += c;
+            TotalCost.Content = "$" + totalCost;
         }
 
         private void btnRemoveItem_Click(object sender, RoutedEventArgs e)
