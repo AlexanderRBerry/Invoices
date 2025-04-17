@@ -16,6 +16,8 @@ using Invoices.Common;
 using System.Reflection;
 using Invoices.Items;
 
+using GalaSoft.MvvmLight.Command;
+
 namespace Invoices.Main
 {
     /// <summary>
@@ -25,6 +27,11 @@ namespace Invoices.Main
     {
         wndSearch search;
         wndItems items;
+        private List<clsItem> addItems = new List<clsItem>();
+
+        int invoiceNumber;
+        int lineItem = 1;
+        double totalCost = 0;
         public wndMain()
         {
             InitializeComponent();
@@ -49,7 +56,7 @@ namespace Invoices.Main
 
         private void btnSaveInvoice_Click(object sender, RoutedEventArgs e)
         {
-
+            dgInvoice.ItemsSource = addItems;
         }
 
         private void btnCreateInvoice_Click(object sender, RoutedEventArgs e)
@@ -61,6 +68,9 @@ namespace Invoices.Main
             clsMainLogic.SaveNewInvoice(date);
             invoiceNum = clsMainLogic.GetInvoiceNumber(date);
             PopulateNewInvoice(invoiceNum);
+            invoiceNumber = invoiceNum;
+            InvoiceNumber.Content = "TBD";
+            
         }
 
         private void cbItems_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -76,11 +86,10 @@ namespace Invoices.Main
         }
 
         //Populating certain invoice
-        private void PopulateInvoice()
+        private void PopulateInvoice(int num)
         {
             clsMainLogic mainLogic = new clsMainLogic();
-            wndSearch invoiceNum = new wndSearch();
-            List<clsItem> invoice = mainLogic.GetInvoice(invoiceNum.selectedInvoiceID);
+            List<clsItem> invoice = mainLogic.GetInvoice(num);
             dgInvoice.ItemsSource = invoice;
         }
         //populate invoice given invoicenum
@@ -100,7 +109,7 @@ namespace Invoices.Main
                 search.ShowDialog();
                 int invoice = 0;
                 invoice = search.selectedInvoiceID;
-                PopulateInvoice();
+                PopulateInvoice(invoice);
             }
             catch (Exception ex)
             {
@@ -127,7 +136,27 @@ namespace Invoices.Main
 
         private void btnAddItem_Click(object sender, RoutedEventArgs e)
         {
-
+            
+            
+            string selected = cbItems.SelectedItem.ToString();
+            string cost = "";
+            
+            clsMainLogic mainLogic = new clsMainLogic();
+            List<clsItem> itemDetails = mainLogic.GetAllItems();
+            for (int i = 0; i < itemDetails.Count; i++)
+            {
+                if (selected == itemDetails[i].itemDescription)
+                {
+                    cost = itemDetails[i].cost;
+                    addItems.Add(itemDetails[i]);
+                    
+                }
+                
+            }
+            dgInvoice.ItemsSource = addItems;
+            double c = double.Parse(cost);
+            totalCost += c;
+            TotalCost.Content = "$" + totalCost;
         }
 
         private void btnRemoveItem_Click(object sender, RoutedEventArgs e)
