@@ -99,7 +99,7 @@ namespace Invoices.Main
                 search = new wndSearch();
                 search.ShowDialog();
                 int invoice = 0;
-                invoice = wndSearch.selectedInvoiceID;
+                invoice = search.selectedInvoiceID;
                 PopulateInvoice();
             }
             catch (Exception ex)
