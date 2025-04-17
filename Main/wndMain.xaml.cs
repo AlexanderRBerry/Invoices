@@ -16,7 +16,6 @@ using Invoices.Common;
 using System.Reflection;
 using Invoices.Items;
 
-using GalaSoft.MvvmLight.Command;
 
 namespace Invoices.Main
 {
