@@ -12,14 +12,19 @@ namespace Invoices.Main
         {
             return "SELECT * FROM ItemDesc";
         }
+
+        public string GetMaxInvoiceSQL()
+        {
+            return "SELECT MAX(InvoiceNum) FROM INVOICES";
+        }
         /// <summary>
         /// SQL to update cost of invoice matching an invoice number
         /// </summary>
         /// <param name="invoiceNum">The invoice number of the specified invoice</param>
         /// <returns>string containing SQL to update cost of invoices with a provided invoice number</returns>
-        public string UpdateInvoicesSQL(int cost, int invoiceNum)
+        public string UpdateInvoicesSQL(double cost, int invoiceNum)
         {
-            return "UPDATE Invoices SET TotalCost = " + cost + "WHERE InvoiceNum = " + invoiceNum;
+            return "UPDATE Invoices SET TotalCost = " + cost + " WHERE InvoiceNum = " + invoiceNum;
         }
 
         /// <summary>
@@ -31,9 +36,14 @@ namespace Invoices.Main
             return "INSERT INTO LineItems (InvoiceNum, LineItemNum, ItemCode) Values(" + invoiceNum + ", " + lineItemNum + ", '" + itemCode + "')";
         }
 
-        public string RemoveItemsSQL(string itemCode)
+        public string RemoveItemsSQL(int invoiceNum)
         {
-            return "DELET FROM LineItems WHERE ItemCode = " + itemCode;
+            return "DELETE FROM LineItems WHERE InvoiceNum = " + invoiceNum;
+        }
+
+        public string GetItemsCountSQL(int invoiceNum)
+        {
+            return "SELECT count(*) FROM LineItems WHERE InvoiceNum = " + invoiceNum;
         }
 
         /// <summary>

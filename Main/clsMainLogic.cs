@@ -52,6 +52,23 @@ namespace Invoices.Main
             }
         }
 
+        public static void RemoveItem(int invoiceNum)
+        {
+            clsDataAccess db = new clsDataAccess();
+            clsMainSQL sqlStatements = new clsMainSQL();
+            string sSQL = sqlStatements.RemoveItemsSQL(invoiceNum);
+            db.ExecuteNonQuery(sSQL);
+        }
+
+        public int CountItems(int invoiceNum)
+        {
+            clsDataAccess db = new clsDataAccess();
+            clsMainSQL sqlStatements = new clsMainSQL();
+            string sSQL = sqlStatements.GetItemsCountSQL(invoiceNum);
+            string count = db.ExecuteScalarSQL(sSQL);
+            int iCount = Int32.Parse(count);
+            return iCount;
+        }
 
         //SaveNewInvoice(clsInvoice)
         public static void SaveNewInvoice(string date)
@@ -78,12 +95,21 @@ namespace Invoices.Main
             return number;
         }
         //EditInvoice(clsOldInvoice, clsNewInvoice)
-        public static void EditInvoice(int cost, int invoiceNum)
+        public static void EditInvoice(double cost, int invoiceNum)
         {
             clsDataAccess db = new clsDataAccess();
             clsMainSQL sqlStatements = new clsMainSQL();
             string sSQL = sqlStatements.UpdateInvoicesSQL(cost, invoiceNum);
             db.ExecuteNonQuery(sSQL);
+        }
+        public static int GetMaxInvoice()
+        {
+            clsDataAccess db = new clsDataAccess();
+            clsMainSQL sqlStatements = new clsMainSQL();
+            string sSQL = sqlStatements.GetMaxInvoiceSQL();
+            string invoiceNum = db.ExecuteScalarSQL(sSQL);
+            int invoice = Int32.Parse(invoiceNum);
+            return invoice;
         }
         //GetInvoice(InvoiceNumber) returns clsInvoice - Get the invoice and items for the selected invoice from search window
         public List<clsItem> GetInvoice(int invoiceNum)
@@ -114,5 +140,7 @@ namespace Invoices.Main
 
             return invoices;
         }
+
+       
     }
 }
