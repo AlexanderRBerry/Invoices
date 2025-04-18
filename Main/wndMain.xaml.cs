@@ -217,5 +217,7 @@ namespace Invoices.Main
             dgInvoice.ItemsSource = addItems;
             dgInvoice.Items.Refresh();
         }
+
+        
     }
 }

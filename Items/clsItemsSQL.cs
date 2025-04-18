@@ -42,6 +42,11 @@ namespace Invoices.Items
             return "SELECT '" + itemCode + "', " + itemDesc + ", " + itemCost + "FROM ItemDesc"; //should I make the table a string and pass it in as well?
         }
 
+        public string GetItemDescTableSQL()
+        {
+            return "SELECT ItemCode, ItemDesc, Cost FROM ItemDesc";
+        }
+
         /// <summary>
         /// SQL for getting unique invoice numbers from the table LineItems using item code
         /// </summary>
