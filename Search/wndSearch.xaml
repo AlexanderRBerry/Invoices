@@ -7,15 +7,21 @@
         mc:Ignorable="d"
         Title="Search" Height="450" Width="800">
     <Canvas>
-        <DataGrid d:ItemsSource="{d:SampleData ItemCount=10}" Canvas.Left="49" Canvas.Top="88"/>
+        <DataGrid x:Name="dgInvoices" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False" Canvas.Left="78" Canvas.Top="95">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Invoice ID" Binding="{Binding invoiceID}" />
+                <DataGridTextColumn Header="Date" Binding="{Binding invoiceDate}" />
+                <DataGridTextColumn Header="Total Cost " Binding="{Binding totalCost}" />
+            </DataGrid.Columns>
+        </DataGrid>
         <Label x:Name="lblFilter" Content="Filter:" Canvas.Left="490" Canvas.Top="102" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Top"/>
         <Label x:Name="lblInvoiceNumber" Content="Invoice Number:" Canvas.Left="490" Canvas.Top="138" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <Label x:Name="lblInvoiceDate" Content="Invoice Date:" Canvas.Left="490" Canvas.Top="181" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <Label x:Name="lblCost" Content="Total Costs:" Canvas.Left="490" Canvas.Top="227" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-        <ComboBox x:Name="cbInvoiceNumber" Width="120" Canvas.Left="606" Canvas.Top="142"/>
-        <ComboBox x:Name="cbInvoiceDate1" Width="120" Canvas.Left="606" Canvas.Top="188" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-        <ComboBox x:Name="cbCosts" Width="120" Canvas.Left="606" Canvas.Top="231" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-        <Button x:Name="btnClearFilter" Content="Clear Filters" Canvas.Left="546" Canvas.Top="278" FontSize="14" FontWeight="Bold" Width="88" Height="26" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+        <ComboBox x:Name="cbInvoiceNumber" Width="120" Canvas.Left="606" Canvas.Top="142" SelectionChanged="cbInvoiceNumber_SelectionChanged"/>
+        <ComboBox x:Name="cbInvoiceDate" Width="120" Canvas.Left="606" Canvas.Top="188" HorizontalAlignment="Center" VerticalAlignment="Top" SelectionChanged="cbInvoiceDate_SelectionChanged"/>
+        <ComboBox x:Name="cbCosts" Width="120" Canvas.Left="606" Canvas.Top="231" HorizontalAlignment="Center" VerticalAlignment="Top" SelectionChanged="cbCosts_SelectionChanged"/>
+        <Button x:Name="btnClearFilter" Content="Clear Filters" Canvas.Left="546" Canvas.Top="278" FontSize="14" FontWeight="Bold" Width="88" Height="26" HorizontalAlignment="Center" VerticalAlignment="Top" Click="btnClearFilter_Click"/>
         <Button x:Name="btnSelect" Content="Select" Canvas.Left="260" Canvas.Top="358" FontSize="14" FontWeight="Bold" Width="88" Height="26" HorizontalAlignment="Left" VerticalAlignment="Center" Click="btnSelect_Click"/>
         <Button x:Name="btnCancel" Content="Cancel" Canvas.Left="442" Canvas.Top="358" FontSize="14" FontWeight="Bold" Width="88" Height="26" HorizontalAlignment="Left" VerticalAlignment="Center" Click="btnCancel_Click"/>
     </Canvas>

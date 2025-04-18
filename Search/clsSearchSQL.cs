@@ -66,6 +66,17 @@ namespace Invoices.Search
         }
 
         /// <summary>
+        /// SQL to retrieve invoices with a specific ID and total cost
+        /// </summary>
+        /// <param name="invoiceID">The invoice ID</param>
+        /// <param name="invoiceCost">The invoice total cost</param>
+        /// <returns>string containing sql to retreive invoices with a provided ID and cost</returns>
+        public string GetInvoicesByIDAndCost(string invoiceID, int invoiceCost)
+        {
+            return "SELECT * FROM Invoices WHERE InvoiceID = " + invoiceID + " AND TotalCost = " + invoiceCost;
+        }
+
+        /// <summary>
         /// SQL to retrieve invoices with a specific total cost and date
         /// </summary>
         /// <param name="invoiceCost">The invoice total cost</param>
@@ -92,9 +103,9 @@ namespace Invoices.Search
         /// </summary>
         /// <param name="invoiceNum">The invoice number of the specified invoice</param>
         /// <returns>string sql to retrieve distinct invoice numbers order by invoice number</returns>
-        public string GetInvoiceNumbersSQL(string invoiceNum)
+        public string GetInvoiceNumbersSQL() 
         {
-            return "SELECT DISTINCT(" + invoiceNum + ") FROM Invoices ORDER BY " + invoiceNum;
+            return "SELECT DISTINCT(InvoiceNum) FROM Invoices ORDER BY InvoiceNum";
         }
 
         /// <summary>
@@ -102,9 +113,9 @@ namespace Invoices.Search
         /// </summary>
         /// <param name="invoiceDate">The date of the invoice</param>
         /// <returns>string sql to retrieve distinct invoice dates order by invoice date</returns>
-        public string GetInvoiceDatesSQL(string invoiceDate)
+        public string GetInvoiceDatesSQL()
         {
-            return "SELECT DISTINCT(" + invoiceDate + ") FROM Invoices ORDER BY " + invoiceDate;
+            return "SELECT DISTINCT(InvoiceDate) FROM Invoices ORDER BY InvoiceDate";
         }
 
         /// <summary>
@@ -112,9 +123,9 @@ namespace Invoices.Search
         /// </summary>
         /// <param name="invoiceCost">The invoice total cost</param>
         /// <returns>string sql to retrieve distinct invoice total costs order by invoice total costs</returns>
-        public string GetInvoiceCosts(int invoiceCost)
+        public string GetInvoiceCostsSQL()
         {
-            return "SELECT DISTINCT(" + invoiceCost + ") FROM Invoices ORDER BY " + invoiceCost;
+            return "SELECT DISTINCT(TotalCost) FROM Invoices ORDER BY TotalCost";
         }
     }
 }

@@ -4,6 +4,6 @@
              xmlns:local="clr-namespace:Invoices"
              StartupUri="Main\wndMain.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary Source="Common\BureauBlack.xaml"/>
     </Application.Resources>
 </Application>

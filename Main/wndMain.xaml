@@ -5,8 +5,38 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Invoices.Main"
         mc:Ignorable="d"
-        Title="wndMain" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        Title="MainWindow" Height="378" Width="800">
+    <Canvas>
+        <DataGrid Name="dgInvoice" d:ItemsSource="{Binding AddItems}" Canvas.Left="428" Canvas.Top="195" IsEnabled="True"/>
+        <Label x:Name="lblFilter" Content="Items on Invoice:" Canvas.Left="418" Canvas.Top="169" FontSize="16" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <Label x:Name="lblInvoiceNumber" Content="Items:" Canvas.Left="101" Canvas.Top="158" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+        <ComboBox x:Name="cbItems" Width="120" Canvas.Left="143" Canvas.Top="158" HorizontalAlignment="Center" VerticalAlignment="Top" SelectionChanged="cbItems_SelectionChanged" IsEnabled="True"/>
+        <Button x:Name="btnAddItem" Content="Add Item" Canvas.Left="284" Canvas.Top="158" FontSize="14" FontWeight="Bold" Width="88" Height="26" HorizontalAlignment="Center" VerticalAlignment="Top" RenderTransformOrigin="0.508,0.752" Click="btnAddItem_Click" IsEnabled="True"/>
+        <Button x:Name="btnEditInvoice" Content="Edit Invoice" Canvas.Left="260" Canvas.Top="32" FontSize="14" FontWeight="Bold" Width="88" Height="26" HorizontalAlignment="Center" VerticalAlignment="Top" Click="btnEditInvoice_Click"/>
+        <Button x:Name="btnSaveInvoice" Content="Save Invoice" Canvas.Left="400" Canvas.Top="32" FontSize="14" FontWeight="Bold" Width="88" Height="26" HorizontalAlignment="Left" VerticalAlignment="Top" Click="btnSaveInvoice_Click"/>
+        <Label Content="Invoice Date:" Canvas.Left="58" Canvas.Top="98" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+        <Label Content="Invoice Number:" Canvas.Left="36" Canvas.Top="132" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+        <Label Content="Total Cost:" Canvas.Left="74" Canvas.Top="215" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+        <Button x:Name="btnRemoveItem" Content="Remove Item" Canvas.Left="284" Canvas.Top="197" FontSize="14" FontWeight="Bold" Width="114" Height="26" RenderTransformOrigin="0.508,0.752" HorizontalAlignment="Center" VerticalAlignment="Top" Click="btnRemoveItem_Click" IsEnabled="True"/>
+        <Label x:Name="lblCost" Content="Item Cost:" Canvas.Left="74" Canvas.Top="186" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <Button x:Name="btnCreateInvoice" Content="Create Invoice" Canvas.Left="268" Canvas.Top="96" FontSize="14" FontWeight="Bold" Width="106" Height="23" Click="btnCreateInvoice_Click" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <Menu>
+            <MenuItem Header="Search" Click="MenuItem_Click"/>
+            <MenuItem Header="Edit Items" Click="MenuItem_Click_1"/>
+        </Menu>
+        <Label Name="Cost" Content="" Canvas.Left="143" Canvas.Top="189" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+        <!--<TextBox Name="InvoiceDate" Canvas.Left="143" TextWrapping="Wrap" Text="Date" Canvas.Top="98" Width="120" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+        -->
+        <DatePicker x:Name="InvoiceDate" 
+            SelectedDate="{Binding InvoiceDate}"
+            Text="Date"
+            DisplayDateStart="2020-01-01"
+            DisplayDateEnd="2030-12-31"
+            FirstDayOfWeek="Monday"
+            IsDropDownOpen="False" Canvas.Left="152" Canvas.Top="98" />
+
+        <Label Name="InvoiceNumber" Content="" Canvas.Left="143" Canvas.Top="132" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <Label Name="TotalCost" Content="" Canvas.Left="143" Canvas.Top="221" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+
+    </Canvas>
 </Window>
