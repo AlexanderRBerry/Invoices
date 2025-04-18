@@ -78,6 +78,14 @@ namespace Invoices.Main
             string sSQL = sqlStatements.InsertInvoiceSQL(date, 0);//cost initially is $0, is updated as items are added
             db.ExecuteNonQuery(sSQL);
         }
+
+        public static void SaveNewInvoice(string date, double cost)
+        {
+            clsDataAccess db = new clsDataAccess();
+            clsMainSQL sqlStatements = new clsMainSQL();
+            string sSQL = sqlStatements.InsertInvoiceSQL(date, cost);//cost initially is $0, is updated as items are added
+            db.ExecuteNonQuery(sSQL);
+        }
         public static void AddItem(int invoiceNum, int lineItemNum, string itemCode)
         {
             clsDataAccess db = new clsDataAccess();
@@ -112,6 +120,7 @@ namespace Invoices.Main
             return invoice;
         }
         //GetInvoice(InvoiceNumber) returns clsInvoice - Get the invoice and items for the selected invoice from search window
+        // It may be more accurate to say this returns a list of line items for an invoice rather than an invoice
         public List<clsItem> GetInvoice(int invoiceNum)
         { 
             List<clsItem> invoices = new List<clsItem>();
