@@ -25,7 +25,16 @@
             <MenuItem Header="Edit Items" Click="MenuItem_Click_1"/>
         </Menu>
         <Label Name="Cost" Content="" Canvas.Left="143" Canvas.Top="189" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-        <TextBox Name="InvoiceDate" Canvas.Left="143" TextWrapping="Wrap" Text="Date" Canvas.Top="98" Width="120" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+        <!--<TextBox Name="InvoiceDate" Canvas.Left="143" TextWrapping="Wrap" Text="Date" Canvas.Top="98" Width="120" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+        -->
+        <DatePicker x:Name="InvoiceDate" 
+            SelectedDate="{Binding InvoiceDate}"
+            Text="Date"
+            DisplayDateStart="2020-01-01"
+            DisplayDateEnd="2030-12-31"
+            FirstDayOfWeek="Monday"
+            IsDropDownOpen="False" Canvas.Left="152" Canvas.Top="98" />
+
         <Label Name="InvoiceNumber" Content="" Canvas.Left="143" Canvas.Top="132" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <Label Name="TotalCost" Content="" Canvas.Left="143" Canvas.Top="221" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
