@@ -50,7 +50,7 @@ namespace Invoices.Main
         /// SQL to insert into Invoices
         /// </summary>
         /// <returns>string containing SQL to insert values into Invoices</returns>
-        public string InsertInvoiceSQL(string date, int cost)
+        public string InsertInvoiceSQL(string date, double cost)
         {
             return "INSERT INTO Invoices (InvoiceDate, TotalCost) Values (#" + date + "#, " + cost + ")";
         }
