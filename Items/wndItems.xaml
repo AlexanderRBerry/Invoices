@@ -8,9 +8,9 @@
         Title="wndItems" Height="450" Width="800">
     <Grid>
         <Button x:Name="buttonAdd" Content="Add Item" HorizontalAlignment="Left" Margin="34,316,0,0" VerticalAlignment="Top" Click="buttonAdd_Click"/>
-        <Button x:Name="buttonEdit" Content="Edit Item" HorizontalAlignment="Left" Margin="134,316,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="buttonEdit" Content="Edit Item" HorizontalAlignment="Left" Margin="134,316,0,0" VerticalAlignment="Top" Click="buttonEdit_Click"/>
         <Button x:Name="buttonSave" Content="Save Item" HorizontalAlignment="Left" Margin="234,316,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="buttonDelete" Content="Delete Item" HorizontalAlignment="Left" Margin="34,369,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="buttonDelete" Content="Delete Item" HorizontalAlignment="Left" Margin="34,369,0,0" VerticalAlignment="Top" Click="buttonDelete_Click"/>
 
         <Label x:Name="labelCode" Content="Code: " HorizontalAlignment="Left" Margin="50,43,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="textBoxCode" HorizontalAlignment="Left" Margin="102,47,0,0" TextWrapping="Wrap" Text="Enter Code" VerticalAlignment="Top" Width="120"/>

@@ -50,7 +50,7 @@ namespace Invoices.Items
                     items.Add(item);
                 }
 
-                Trace.WriteLine("\n\n\n YOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO count!: " + items.Count);
+                
                 return items;
             }
             catch (Exception ex)
@@ -70,5 +70,44 @@ namespace Invoices.Items
             string sSQL = sqlStatements.InsertCodeDescCost(itemCode, itemDesc, cost);
             db.ExecuteNonQuery(sSQL);
         }
+
+        public static void EditItem(string itemDesc, double itemCost, string itemCode)
+        {
+            clsDataAccess db = new clsDataAccess();
+            clsItemsSQL sqlStatements = new clsItemsSQL();
+            string sSQL = sqlStatements.UpdateDescCost(itemDesc, itemCost, itemCode);
+            db.ExecuteNonQuery(sSQL);
+        }
+
+
+        public static bool InvoiceCheck(string itemCode)
+        {
+            List<clsInvoice> invoices = new List<clsInvoice>();
+            clsDataAccess db = new clsDataAccess();
+            clsItemsSQL sqlStatments = new clsItemsSQL();
+            string sSQL = sqlStatments.GetUniqueInvoiceNums(itemCode);
+            int rows = 0;
+            DataSet ds = db.ExecuteSQLStatement(sSQL, ref rows);
+            foreach (DataRow row in ds.Tables[0].Rows)
+            {
+                clsInvoice invoice = new clsInvoice();
+                invoice.invoiceID = row[0].ToString();
+                invoices.Add(invoice);
+            
+            }
+
+            if(invoices.Count > 0)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+
+            }
+
+        }
+
+
     }
 }

@@ -31,11 +31,7 @@ namespace Invoices.Items
             clsItemsLogic itemLogic = new clsItemsLogic();
             itemsList = itemLogic.GetAllItems();
 
-            for (int i = 0; i < itemsList.Count; i++)
-            {
-                //cbItems.Items.Add(itemDetails[i].itemDescription);
-                Trace.WriteLine("\n\n\n\nYOOOOOOOOOOOO WND: " + itemsList[i].cost + "    " + itemsList[i].itemDescription);
-            }
+            
             dataGrid.ItemsSource = itemsList;
         }
 
@@ -45,14 +41,14 @@ namespace Invoices.Items
             clsItem selectedItem = new clsItem();
             selectedItem = dataGrid.SelectedItem as clsItem;
 
-            //Trace.WriteLine("\n\n\n\n------------------sender: " + sender.ToString());
-            //Trace.WriteLine("\n\n\n\n------------------sender: " + sender.GetType);
-            Trace.WriteLine("\n\n\n\n item test" + selectedItem.itemDescription + "     cost: " + selectedItem.cost);
 
             //display selected item to text boxes
-            textBoxCode.Text = selectedItem.itemCode;
-            textBoxCost.Text = selectedItem.cost;
-            textBoxDesc.Text = selectedItem.itemDescription;
+            if (selectedItem != null)
+            {
+                textBoxCode.Text = selectedItem.itemCode;
+                textBoxCost.Text = selectedItem.cost;
+                textBoxDesc.Text = selectedItem.itemDescription;
+            }
         }
 
         private void buttonAdd_Click(object sender, RoutedEventArgs e)
@@ -61,11 +57,87 @@ namespace Invoices.Items
             item.cost = textBoxCost.Text;
             item.itemDescription = textBoxDesc.Text;
             item.itemCode = textBoxCode.Text;
-            itemsList.Add(item);
+            bool testPassed = true;
+
+            //checking if itemCode exists
+            for (int i = 0; i < itemsList.Count; i++)
+            {
+                if (itemsList[i].itemCode == item.itemCode)
+                {
+                    testPassed = false;
+                    MessageBox.Show("Item code already exists, cannot add item", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+            if(testPassed == true)
+            {
+                itemsList.Add(item);
+            }
+
+            //TODO: USE SQL
+            //maybe validate code? seems weird to allow user to enter that though
+
+
+            // clsItemsLogic.AddItem(item.itemCode, item.itemDescription, cost); ---------------------------------
             dataGrid.ItemsSource = itemsList;
             dataGrid.Items.Refresh();
-            //maybe call addItems here to use sql to actually update the database
         }
+
+        private void buttonEdit_Click(object sender, RoutedEventArgs e)
+        {
+            clsItem item = new clsItem();
+            item.cost = textBoxCost.Text;
+            double cost = double.Parse(textBoxCost.Text); //using this for sql
+            item.itemDescription = textBoxDesc.Text;
+            item.itemCode = textBoxCode.Text;
+            bool passedInvoiceCheck = false;
+            passedInvoiceCheck = clsItemsLogic.InvoiceCheck(item.itemCode);
+            
+            for(int i = 0; i < itemsList.Count; i++)
+            {
+                if (itemsList[i].itemCode == textBoxCode.Text)
+                {
+                    if(passedInvoiceCheck == true)
+                    {
+                        itemsList[i].cost = textBoxCost.Text;
+                        itemsList[i].itemDescription = textBoxDesc.Text;
+                    }
+                    
+                }
+            }
+
+            //TODO: USE SQL
+
+            dataGrid.ItemsSource = itemsList;
+            dataGrid.Items.Refresh();
+
+        }
+
+        private void buttonDelete_Click(object sender, RoutedEventArgs e)
+        {
+            clsItem item = new clsItem();
+            item.cost = textBoxCost.Text;
+            item.itemDescription = textBoxDesc.Text;
+            item.itemCode = textBoxCode.Text;
+            bool passedInvoiceCheck = false;
+            passedInvoiceCheck = clsItemsLogic.InvoiceCheck(item.itemCode);
+
+            for (int i = 0; i < itemsList.Count; i++)
+            {
+                if (itemsList[i].itemCode == textBoxCode.Text)
+                {
+                    if (passedInvoiceCheck == true)
+                    {
+                        itemsList.RemoveAt(i); //can't use itemsList.Remove(item) because it removes based on reference(like a pointer) so when I do clsItem item = new clsItem();, even tho I fill it up with the same info, its a different item therefore a different reference
+                        dataGrid.ItemsSource = itemsList;
+                        dataGrid.Items.Refresh();
+                    }
+                    
+                }
+            }
+            
+        }
+
+
 
 
     }
