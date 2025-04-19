@@ -13,13 +13,11 @@ namespace Invoices.Items
 {
     internal class clsItemsLogic
     {
-        //swag
-        //getAllItems that returns all the items in a list for datagrid
-        //hasItemChanged bool to make sure we don't delete an item thats already in an invoice
-        //"bind" list to data grid?
-
-
-        //try to get items with sql, then display in trace
+        /// <summary>
+        /// Gets all items from the database, puts them into a list, then returns the list
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public List<clsItem> GetAllItems()
         {
             try
@@ -50,7 +48,6 @@ namespace Invoices.Items
                     items.Add(item);
                 }
 
-                
                 return items;
             }
             catch (Exception ex)
@@ -61,17 +58,26 @@ namespace Invoices.Items
             }
         }
 
-
-
+        /// <summary>
+        /// Adds item to DB
+        /// </summary>
+        /// <param name="itemCode"></param>
+        /// <param name="itemDesc"></param>
+        /// <param name="cost"></param>
         public static void AddItem(string itemCode, string itemDesc, double cost)
         {
             clsDataAccess db = new clsDataAccess();
             clsItemsSQL sqlStatements = new clsItemsSQL();
             string sSQL = sqlStatements.InsertCodeDescCost(itemCode, itemDesc, cost);
-            db.ExecuteNonQuery(sSQL);
-            Trace.WriteLine("\n\n LOGIC code: " + itemCode + "     description: " + itemDesc + "   cost: " + cost);
+            db.ExecuteNonQuery(sSQL);  
         }
 
+        /// <summary>
+        /// Edits item from DB
+        /// </summary>
+        /// <param name="itemDesc"></param>
+        /// <param name="itemCost"></param>
+        /// <param name="itemCode"></param>
         public static void EditItem(string itemDesc, double itemCost, string itemCode)
         {
             clsDataAccess db = new clsDataAccess();
@@ -80,7 +86,23 @@ namespace Invoices.Items
             db.ExecuteNonQuery(sSQL);
         }
 
+        /// <summary>
+        /// Deletes Item from DB
+        /// </summary>
+        /// <param name="itemCode"></param>
+        public static void DeleteItem(string itemCode)
+        {
+            clsDataAccess db = new clsDataAccess();
+            clsItemsSQL sqlStatements = new clsItemsSQL(); 
+            string sSQL = sqlStatements.DeleteItem(itemCode);
+            db.ExecuteNonQuery(sSQL);
+        }
 
+        /// <summary>
+        /// Uses item code to check if the item belongs to an invoice currently
+        /// </summary>
+        /// <param name="itemCode"></param>
+        /// <returns></returns>
         public static bool InvoiceCheck(string itemCode)
         {
             List<clsInvoice> invoices = new List<clsInvoice>();
@@ -94,7 +116,6 @@ namespace Invoices.Items
                 clsInvoice invoice = new clsInvoice();
                 invoice.invoiceID = row[0].ToString();
                 invoices.Add(invoice);
-            
             }
 
             if(invoices.Count > 0)
@@ -104,9 +125,7 @@ namespace Invoices.Items
             else
             {
                 return true;
-
             }
-
         }
 
 

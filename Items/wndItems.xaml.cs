@@ -30,17 +30,18 @@ namespace Invoices.Items
             Application.Current.ShutdownMode = ShutdownMode.OnMainWindowClose; // Ensures complete shutdown
             clsItemsLogic itemLogic = new clsItemsLogic();
             itemsList = itemLogic.GetAllItems();
-
-            
             dataGrid.ItemsSource = itemsList;
         }
 
+        /// <summary>
+        /// Populates text fields when item is selected in window/datagrid
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void selectedItem(object sender, SelectionChangedEventArgs e)
         {
-            
             clsItem selectedItem = new clsItem();
             selectedItem = dataGrid.SelectedItem as clsItem;
-
 
             //display selected item to text boxes
             if (selectedItem != null)
@@ -51,6 +52,11 @@ namespace Invoices.Items
             }
         }
 
+        /// <summary>
+        /// If itemCode in field doesn't already exist, it adds an item based on textfields
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void buttonAdd_Click(object sender, RoutedEventArgs e)
         {
             clsItem item = new clsItem();
@@ -72,16 +78,17 @@ namespace Invoices.Items
             if(testPassed == true)
             {
                 itemsList.Add(item);
-                Trace.WriteLine("\n\n BUTTON code: " + item.itemCode + "     description: " + item.itemDescription + "   cost: " + cost.GetType());
                 clsItemsLogic.AddItem(item.itemCode, item.itemDescription, cost);
-                
             }
-
-            //TODO: USE SQL
             dataGrid.ItemsSource = itemsList;
             dataGrid.Items.Refresh();
         }
 
+        /// <summary>
+        /// Updates item to information in text box, if item isn't currently in an invoice
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void buttonEdit_Click(object sender, RoutedEventArgs e)
         {
             clsItem item = new clsItem();
@@ -91,31 +98,32 @@ namespace Invoices.Items
             item.itemCode = textBoxCode.Text;
             bool passedInvoiceCheck = false;
             passedInvoiceCheck = clsItemsLogic.InvoiceCheck(item.itemCode);
-            
-            for(int i = 0; i < itemsList.Count; i++)
+
+            for (int i = 0; i < itemsList.Count; i++)
             {
                 if (itemsList[i].itemCode == textBoxCode.Text)
                 {
-                    if(passedInvoiceCheck == true)
+                    if (passedInvoiceCheck == true)
                     {
                         itemsList[i].cost = textBoxCost.Text;
                         itemsList[i].itemDescription = textBoxDesc.Text;
+                        clsItemsLogic.EditItem(item.itemDescription, cost, item.itemCode);
                     }
                     else
                     {
                         MessageBox.Show("Item belongs to invoice, cannot edit item", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
-                    
                 }
             }
-
-            //TODO: USE SQL
-
             dataGrid.ItemsSource = itemsList;
             dataGrid.Items.Refresh();
-
         }
 
+        /// <summary>
+        /// Deletes item if item isn't currently in an invoice
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void buttonDelete_Click(object sender, RoutedEventArgs e)
         {
             clsItem item = new clsItem();
@@ -132,20 +140,16 @@ namespace Invoices.Items
                     if (passedInvoiceCheck == true)
                     {
                         itemsList.RemoveAt(i); //can't use itemsList.Remove(item) because it removes based on reference(like a pointer) so when I do clsItem item = new clsItem();, even tho I fill it up with the same info, its a different item therefore a different reference
-                        dataGrid.ItemsSource = itemsList;
-                        dataGrid.Items.Refresh();
+                        clsItemsLogic.DeleteItem(item.itemCode);
                     }
                     else
                     {
                         MessageBox.Show("Item belongs to invoice, cannot delete item", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
-
                 }
             }
-
-            //TODO: USE SQL
-
-            
+            dataGrid.ItemsSource = itemsList;
+            dataGrid.Items.Refresh();
         }
 
 
