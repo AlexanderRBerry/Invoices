@@ -55,6 +55,7 @@ namespace Invoices.Items
         {
             clsItem item = new clsItem();
             item.cost = textBoxCost.Text;
+            double cost = double.Parse(item.cost);
             item.itemDescription = textBoxDesc.Text;
             item.itemCode = textBoxCode.Text;
             bool testPassed = true;
@@ -71,13 +72,12 @@ namespace Invoices.Items
             if(testPassed == true)
             {
                 itemsList.Add(item);
+                Trace.WriteLine("\n\n BUTTON code: " + item.itemCode + "     description: " + item.itemDescription + "   cost: " + cost.GetType());
+                clsItemsLogic.AddItem(item.itemCode, item.itemDescription, cost);
+                
             }
 
             //TODO: USE SQL
-            //maybe validate code? seems weird to allow user to enter that though
-
-
-            // clsItemsLogic.AddItem(item.itemCode, item.itemDescription, cost); ---------------------------------
             dataGrid.ItemsSource = itemsList;
             dataGrid.Items.Refresh();
         }
@@ -86,7 +86,7 @@ namespace Invoices.Items
         {
             clsItem item = new clsItem();
             item.cost = textBoxCost.Text;
-            double cost = double.Parse(textBoxCost.Text); //using this for sql
+            double cost = double.Parse(textBoxCost.Text); //using this for sql, might not have to
             item.itemDescription = textBoxDesc.Text;
             item.itemCode = textBoxCode.Text;
             bool passedInvoiceCheck = false;
@@ -100,6 +100,10 @@ namespace Invoices.Items
                     {
                         itemsList[i].cost = textBoxCost.Text;
                         itemsList[i].itemDescription = textBoxDesc.Text;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Item belongs to invoice, cannot edit item", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                     
                 }
@@ -131,9 +135,16 @@ namespace Invoices.Items
                         dataGrid.ItemsSource = itemsList;
                         dataGrid.Items.Refresh();
                     }
-                    
+                    else
+                    {
+                        MessageBox.Show("Item belongs to invoice, cannot delete item", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+
                 }
             }
+
+            //TODO: USE SQL
+
             
         }
 

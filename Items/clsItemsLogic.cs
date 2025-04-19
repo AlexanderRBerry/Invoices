@@ -69,6 +69,7 @@ namespace Invoices.Items
             clsItemsSQL sqlStatements = new clsItemsSQL();
             string sSQL = sqlStatements.InsertCodeDescCost(itemCode, itemDesc, cost);
             db.ExecuteNonQuery(sSQL);
+            Trace.WriteLine("\n\n LOGIC code: " + itemCode + "     description: " + itemDesc + "   cost: " + cost);
         }
 
         public static void EditItem(string itemDesc, double itemCost, string itemCode)
