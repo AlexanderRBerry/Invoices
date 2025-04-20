@@ -11,15 +11,15 @@
         <Label x:Name="lblFilter" Content="Items on Invoice:" Canvas.Left="418" Canvas.Top="169" FontSize="16" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <Label x:Name="lblInvoiceNumber" Content="Items:" Canvas.Left="101" Canvas.Top="158" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Top"/>
         <ComboBox x:Name="cbItems" Width="120" Canvas.Left="143" Canvas.Top="158" HorizontalAlignment="Center" VerticalAlignment="Top" SelectionChanged="cbItems_SelectionChanged" IsEnabled="True"/>
-        <Button x:Name="btnAddItem" Content="Add Item" Canvas.Left="284" Canvas.Top="158" FontSize="14" FontWeight="Bold" Width="88" Height="26" HorizontalAlignment="Center" VerticalAlignment="Top" RenderTransformOrigin="0.508,0.752" Click="btnAddItem_Click" IsEnabled="True"/>
-        <Button x:Name="btnEditInvoice" Content="Edit Invoice" Canvas.Left="260" Canvas.Top="32" FontSize="14" FontWeight="Bold" Width="88" Height="26" HorizontalAlignment="Center" VerticalAlignment="Top" Click="btnEditInvoice_Click"/>
-        <Button x:Name="btnSaveInvoice" Content="Save Invoice" Canvas.Left="400" Canvas.Top="32" FontSize="14" FontWeight="Bold" Width="88" Height="26" HorizontalAlignment="Left" VerticalAlignment="Top" Click="btnSaveInvoice_Click"/>
+
+        <Button x:Name="btnEditInvoice" Content="Edit Invoice" Canvas.Left="233" Canvas.Top="285" FontSize="14" FontWeight="Bold" Width="88" Height="26" HorizontalAlignment="Left" VerticalAlignment="Center" Click="btnEditInvoice_Click" Foreground="#FF000105"/>
+        <Button x:Name="btnSaveInvoice" Content="Save Invoice" Canvas.Left="98" Canvas.Top="285" FontSize="14" FontWeight="Bold" Width="88" Height="26" HorizontalAlignment="Left" VerticalAlignment="Center" Click="btnSaveInvoice_Click" Foreground="#FF000206"/>
         <Label Content="Invoice Date:" Canvas.Left="58" Canvas.Top="98" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Top"/>
         <Label Content="Invoice Number:" Canvas.Left="36" Canvas.Top="132" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Top"/>
         <Label Content="Total Cost: $" Canvas.Left="72" Canvas.Top="215" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-        <Button x:Name="btnRemoveItem" Content="Remove Item" Canvas.Left="284" Canvas.Top="197" FontSize="14" FontWeight="Bold" Width="114" Height="26" RenderTransformOrigin="0.508,0.752" HorizontalAlignment="Center" VerticalAlignment="Top" Click="btnRemoveItem_Click" IsEnabled="True"/>
+        <Button x:Name="btnRemoveItem" Content="Remove Item" Canvas.Left="284" Canvas.Top="197" FontSize="14" FontWeight="Bold" Width="114" Height="26"  HorizontalAlignment="Center" VerticalAlignment="Top" Click="btnRemoveItem_Click" IsEnabled="True" Foreground="#FF000309"/>
         <Label x:Name="lblCost" Content="Item Cost: $" Canvas.Left="74" Canvas.Top="186" FontSize="14" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <Button x:Name="btnCreateInvoice" Content="Create Invoice" Canvas.Left="268" Canvas.Top="96" FontSize="14" FontWeight="Bold" Width="106" Height="23" Click="btnCreateInvoice_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Visibility="Hidden"/>
+        <Button x:Name="btnCreateInvoice" Content="Create Invoice" Canvas.Left="268" Canvas.Top="96" FontSize="14" FontWeight="Bold" Width="106" Height="23" Click="btnCreateInvoice_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#FF000206"/>
         <Menu>
             <MenuItem Header="Search" Click="MenuItem_Click"/>
             <MenuItem Header="Edit Items" Click="MenuItem_Click_1"/>
@@ -37,6 +37,14 @@
 
         <Label Name="InvoiceNumber" Content="" Canvas.Left="143" Canvas.Top="132" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <Label Name="TotalCost" Content="" Canvas.Left="148" Canvas.Top="215" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14"/>
+        <Button Name="btnAddItem" Content="Add Item" Canvas.Left="286" Canvas.Top="158" HorizontalAlignment="Center" VerticalAlignment="Top" Click="btnAddItem_Click" IsEnabled="True" Width="88" Height="26" FontSize="14" Foreground="#FF000105" BorderBrush="#FFD7D1D1" FontWeight="Bold">
+            <Button.OpacityMask>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Black"/>
+                    <GradientStop Color="White" Offset="1"/>
+                </LinearGradientBrush>
+            </Button.OpacityMask>
+        </Button>
 
     </Canvas>
 </Window>

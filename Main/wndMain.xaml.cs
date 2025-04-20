@@ -26,166 +26,48 @@ namespace Invoices.Main
     {
         wndSearch search;
         wndItems items;
+        //List to store items in an invoice
         private List<clsItem> addItems = new List<clsItem>();
 
-        public int invoiceNumber;
+        //invoiceNumber of displayed invoice
+        public int invoiceNumber = 0;
+
+        //total cost of displayed invoice
         double invoiceCost;
-        
-        int lineItem = 1;
-        
+
         public wndMain()
         {
             InitializeComponent();
             Application.Current.ShutdownMode = ShutdownMode.OnMainWindowClose; // Ensures complete shutdown
+
+            //calls loadItems method
+            loadItems();
+        }
+
+        //loads all items from database to combo box
+        private void loadItems()
+        {
+            //connecting to clsMainLogic
             clsMainLogic mainLogic = new clsMainLogic();
+
+            //list of all items
             List<clsItem> itemDetails = mainLogic.GetAllItems();
-            
+
+            //adding items to items drop down
             for (int i = 0; i < itemDetails.Count; i++)
             {
                 cbItems.Items.Add(itemDetails[i].itemDescription);
             }
         }
 
-        //after search window is closed, check property SelectedInvoiceID in the search window to see if an invoice is selected. If so load the invoice
-
-        //after items window is closed, check property HasItemsBeenChanged in the Items window to see if any items were updated. If so re-load items in combo box.
-
+        //Enables user to edit displayed invoice
         private void btnEditInvoice_Click(object sender, RoutedEventArgs e)
-        {
-            dgInvoice.IsEnabled = true;
-            cbItems.IsEnabled = true;
-            btnAddItem.IsEnabled = true;
-            btnRemoveItem.IsEnabled = true;
-        }
-
-        private void btnSaveInvoice_Click(object sender, RoutedEventArgs e)
-        {
-            clsMainLogic mainLogic = new clsMainLogic();
-            //int count = 0;
-            //count = mainLogic.CountItems(invoiceNumber);
-            //
-            //if (count != 0)
-            //{
-            //    for (int i = 0; i < addItems.Count; i++)
-            //    {
-            //        //removes all items in LineItems table for displayed invoice
-            //       clsMainLogic.RemoveItem(invoiceNumber);
-            //    }
-            //}
-            //int invoiceNum = invoiceNumber;
-            //clsMainLogic.EditInvoice(invoiceCost, invoiceNum);
-
-            // TODO: Distinguish between updating an invoice and creating a new one
-            // The easiest way to do this is probably to check if the invoice number is already in the database
-            // If it isn't we create a new invoice.
-
-            // Return if no date is selected
-            if (!InvoiceDate.SelectedDate.HasValue)
+        {   try
             {
-                return;
-            }
-            // Return if no items are added
-            if(addItems.Count == 0)
-            {
-                return;
-            }
-
-            // Extract the total cost
-            double totalCost = double.Parse(TotalCost.Content.ToString());
-            
-            // Save the new invoice to the database
-            clsMainLogic.SaveNewInvoice(InvoiceDate.SelectedDate.ToString(), totalCost);
-
-            // The invoice number of the last created invoice
-            int invoiceNumber = clsMainLogic.GetMaxInvoice();
-
-            int lineNum = 1;
-            //adds all items from addItems list to LineItems table.
-            for (int i = 0; i < addItems.Count; i++)
-            {
-                clsMainLogic.AddItem(invoiceNumber, lineNum, addItems[i].itemCode);
-                lineNum++;
-            }
-
-            // Get all items on the last created invoice
-            List<clsItem> lineItems = mainLogic.GetInvoice(invoiceNumber);
-
-            // Display line items
-            dgInvoice.ItemsSource = lineItems;
-
-            // Display invoice number
-            InvoiceNumber.Content = invoiceNumber;
-
-        }
-
-        private void btnCreateInvoice_Click(object sender, RoutedEventArgs e)
-        {
-            //int invoiceNum = 0;
-
-            //if (InvoiceDate.Text == null)
-            //{ return; }
-            //string date = InvoiceDate.Text;
-            //clsMainLogic.SaveNewInvoice(date);
-            //invoiceNum = clsMainLogic.GetMaxInvoice();
-            //PopulateNewInvoice(invoiceNum);
-            //invoiceNumber = invoiceNum;
-            //InvoiceNumber.Content = "TBD";
-            //dgInvoice.IsEnabled = true;
-
-
-        }
-
-        private void cbItems_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            string selected = cbItems.SelectedItem as string;
-            clsMainLogic mainLogic = new clsMainLogic();
-            List<clsItem> itemDetails = mainLogic.GetAllItems();
-            for (int i = 0; i < itemDetails.Count; i++)
-            {
-                if (selected == itemDetails[i].itemDescription)
-                { Cost.Content = itemDetails[i].cost; }
-            }
-            
-        }
-
-        //Populating certain invoice
-        private void PopulateInvoice(int num)
-        {
-            clsMainLogic mainLogic = new clsMainLogic();
-            List<clsItem> invoice = mainLogic.GetInvoice(num);
-            for(int i = 0; i < invoice.Count; i++)
-            {
-                clsItem item = new clsItem();
-                item = invoice[i];
-                addItems.Add(invoice[i]);
-                invoiceCost += double.Parse(invoice[i].cost);
-            }
-            dgInvoice.ItemsSource = addItems;
-            dgInvoice.Items.Refresh();
-            TotalCost.Content = invoiceCost;
-        }
-        //populate invoice given invoicenum
-        private void PopulateNewInvoice(int invoiceNum)
-        {
-            clsMainLogic mainLogic = new clsMainLogic();
-            List<clsItem> invoice = mainLogic.GetInvoice(invoiceNum);
-            dgInvoice.ItemsSource = invoice;
-            dgInvoice.Items.Refresh();
-        }
-
-        //Search Window
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                search = new wndSearch();
-                search.ShowDialog(); 
-                invoiceNumber = search.selectedInvoiceID;
-                invoiceCost = 0;
-                addItems.Clear();
-                PopulateInvoice(invoiceNumber);
-
-                //TODO: Fill in date field
+                dgInvoice.IsEnabled = true;
+                cbItems.IsEnabled = true;
+                btnAddItem.IsEnabled = true;
+                btnRemoveItem.IsEnabled = true;
             }
             catch (Exception ex)
             {
@@ -195,12 +77,229 @@ namespace Invoices.Main
             }
         }
 
+        //saves items from displayed invoice to databse
+        private void btnSaveInvoice_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                clsMainLogic mainLogic = new clsMainLogic();
+                
+                //count to determine if invoice exists on LineItems table
+                int count = 0;
+
+                //Calls method for counting number of items in LineItems table given invoiceNumber
+                count = mainLogic.CountItems(invoiceNumber);
+
+                //if Invoice already exists
+                if (count != 0)
+                {
+                    //removes all items in LineItems table for displayed invoice
+                    for (int i = 0; i < addItems.Count; i++)
+                    {
+                        clsMainLogic.RemoveItem(invoiceNumber);
+                    }
+                }
+
+                //updates invoice cost
+                clsMainLogic.EditInvoice(invoiceCost, invoiceNumber);
+
+                //int to increment lineNum
+                int lineNum = 1;
+
+                //adds all items from addItems list to LineItems table.
+                for (int i = 0; i < addItems.Count; i++)
+                {
+                    clsMainLogic.AddItem(invoiceNumber, lineNum, addItems[i].itemCode);
+                    lineNum++;
+                }
+
+                // Display invoice number
+                InvoiceNumber.Content = invoiceNumber;
+
+                //disable add/remove button, and datagrid/combo box
+                dgInvoice.IsEnabled = false;
+                cbItems.IsEnabled = false;
+                btnAddItem.IsEnabled = false;
+                btnRemoveItem.IsEnabled = false;
+            }
+            catch (Exception ex)
+            {
+                //Throw an exception
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
+
+        }
+
+        //Creates new invoice given user inputed date
+        private void btnCreateInvoice_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                int invoiceNum = 0;
+                
+                //clears addItems list every time a new invoice is created
+                addItems.Clear();
+
+                //resets invoiceCost to 0 when created
+                invoiceCost = 0;
+
+                // Return if no date is selected
+                if (!InvoiceDate.SelectedDate.HasValue)
+                {
+                    return;
+                }
+
+                //set date value to selected date
+                string date = InvoiceDate.SelectedDate.Value.ToString();
+
+                //calls method to save new invoice
+                clsMainLogic.SaveNewInvoice(date);
+
+                //sets invoiceNum to last created invoice
+                invoiceNum = clsMainLogic.GetMaxInvoice();
+
+                //shows new invoice
+                PopulateNewInvoice(invoiceNum);
+
+                //sets invoiceNumber to displayed invoice
+                invoiceNumber = invoiceNum;
+
+                //invoice Number TBD, will display after clicking save
+                InvoiceNumber.Content = "TBD";
+                dgInvoice.IsEnabled = true;
+            }
+            catch (Exception ex)
+            {
+                //Throw an exception
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
+
+        }
+
+        //method for combo box selection changing
+        private void cbItems_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                //selected item
+                string selected = cbItems.SelectedItem as string;
+
+                //connection to clsMainLogic
+                clsMainLogic mainLogic = new clsMainLogic();
+
+                //list for all items in database
+                List<clsItem> itemDetails = mainLogic.GetAllItems();
+                for (int i = 0; i < itemDetails.Count; i++)
+                {
+                    //if selected item equals current item in list
+                    if (selected == itemDetails[i].itemDescription)
+                    //set cost and display
+                    { Cost.Content = itemDetails[i].cost; }
+                }
+            }
+            catch (Exception ex)
+            {
+                //Throw an exception
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
+
+        }
+
+        //Populating certain invoice
+        private void PopulateInvoice(int num)
+        {
+            try
+            {
+                clsMainLogic mainLogic = new clsMainLogic();
+                //list for items on selected invoice
+                List<clsItem> invoice = mainLogic.GetInvoice(num);
+                for (int i = 0; i < invoice.Count; i++)
+                {
+                    //setting instance of item
+                    clsItem item = new clsItem();
+                    item = invoice[i];
+                    //adding all items from selected invoice to addItems list
+                    addItems.Add(invoice[i]);
+                    //setting cost of all items on invoice
+                    invoiceCost += double.Parse(invoice[i].cost);
+                }
+                dgInvoice.ItemsSource = addItems;
+                dgInvoice.Items.Refresh();
+                TotalCost.Content = invoiceCost;
+            }
+            catch (Exception ex)
+            {
+                //Throw an exception
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
+        }
+        //populate invoice given invoicenum
+        private void PopulateNewInvoice(int invoiceNum)
+        {
+            try
+            {
+                clsMainLogic mainLogic = new clsMainLogic();
+                //list for items on invoice
+                List<clsItem> invoice = mainLogic.GetInvoice(invoiceNum);
+                //displaying new invoice
+                dgInvoice.ItemsSource = invoice;
+                dgInvoice.Items.Refresh();
+            }
+            catch (Exception ex)
+            {
+                //Throw an exception
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
+        }
+
+        //Search Window
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                search = new wndSearch();
+                search.ShowDialog(); //show search screen
+
+                //getting selected invoice number 
+                invoiceNumber = search.selectedInvoiceID;
+                //displaying invoice number
+                InvoiceNumber.Content = invoiceNumber;
+                //resetting invoiceCost to 0
+                invoiceCost = 0;
+                //clearing addItems list for new invoice
+                addItems.Clear();
+                //displaying invoice
+                PopulateInvoice(invoiceNumber);
+                //enabling user to edit invoice
+                dgInvoice.IsEnabled = true;
+                cbItems.IsEnabled = true;
+                btnRemoveItem.IsEnabled = true;
+                btnAddItem.IsEnabled = true;
+
+            }
+            catch (Exception ex)
+            {
+                //Throw an exception
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
+        }
+
+        //Items window
         private void MenuItem_Click_1(object sender, RoutedEventArgs e)
         {
             try
             {
                 items = new wndItems();
                 items.ShowDialog();
+                
+                //reloading items in comnbo box, in case items on database changed
+                loadItems();
             }
             catch (Exception ex)
             {
@@ -212,54 +311,83 @@ namespace Invoices.Main
 
         private void btnAddItem_Click(object sender, RoutedEventArgs e)
         {
-            // If no item is selected don't do anything
-            if(cbItems.SelectedIndex == -1)
+            try
             {
-                return;
-            }
-            
-            string selected = cbItems.SelectedItem.ToString();
-            string cost = "";
-            
-            clsMainLogic mainLogic = new clsMainLogic();
-            List<clsItem> itemDetails = mainLogic.GetAllItems();
-            int x = 0;
-            for (int i = 0; i < itemDetails.Count; i++)
-            {
-                if (selected == itemDetails[i].itemDescription)
+                // If no item is selected don't do anything
+                if (cbItems.SelectedIndex == -1)
                 {
-                    cost = itemDetails[i].cost;
-                    addItems.Add(itemDetails[i]);
-                    //dgInvoice.Items.Add(addItems[x]);
-                    x++;
+                    return;
                 }
-                
+                //selected item
+                string selected = cbItems.SelectedItem.ToString();
+                string cost = "";
+
+                clsMainLogic mainLogic = new clsMainLogic();
+
+                //list of items in database
+                List<clsItem> itemDetails = mainLogic.GetAllItems();
+                for (int i = 0; i < itemDetails.Count; i++)
+                {
+                    //if selected equals current item in list
+                    if (selected == itemDetails[i].itemDescription)
+                    {
+                        //set cost
+                        cost = itemDetails[i].cost;
+                        //add item to addItems list
+                        addItems.Add(itemDetails[i]);
+                    }
+                }
+                //displaying selected item in data grid
+                dgInvoice.ItemsSource = addItems;
+                dgInvoice.Items.Refresh();
+                //setting price of item
+                double c = double.Parse(cost);
+                //saving total cost of invoice
+                invoiceCost += c;
+                //displaying total cost of invoice
+                TotalCost.Content = invoiceCost;
             }
-            dgInvoice.ItemsSource = addItems;
-            dgInvoice.Items.Refresh();
-            double c = double.Parse(cost);
-            //totalCost += c;
-            invoiceCost += c;
-            //TotalCost.Content = "$" + invoiceCost;
-            TotalCost.Content = invoiceCost;
+            catch (Exception ex)
+            {
+                //Throw an exception
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
         }
 
         private void btnRemoveItem_Click(object sender, RoutedEventArgs e)
         {
-            // if no item is selected, do nothing
-            if (dgInvoice.SelectedIndex == -1)
+            try
             {
-                return;
+                // if no item is selected, do nothing
+                if (dgInvoice.SelectedIndex == -1)
+                {
+                    return;
+                }
+
+                //saving item in clsItem
+                clsItem item = new clsItem();
+                item = (clsItem)dgInvoice.SelectedItem;
+
+                //removing selected item from addItems List
+                addItems.Remove(item);
+                //setting cost of selected item
+                double itemCost = double.Parse(item.cost);
+                //updating total cost of invoice
+                invoiceCost -= itemCost;
+                //displaying new total cost
+                TotalCost.Content = invoiceCost;
+                //displaying new invoice
+                dgInvoice.ItemsSource = addItems;
+                dgInvoice.Items.Refresh();
             }
-            clsItem item = new clsItem();
-            item = (clsItem)dgInvoice.SelectedItem;
-            addItems.Remove(item);
-            double itemCost = double.Parse(item.cost);
-            invoiceCost -= itemCost;
-            TotalCost.Content = invoiceCost;
-            //TotalCost.Content = "$" + invoiceCost;
-            dgInvoice.ItemsSource = addItems;
-            dgInvoice.Items.Refresh();
+            catch (Exception ex)
+            {
+                //Throw an exception
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
+            }
         }
+
     }
 }
