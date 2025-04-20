@@ -47,16 +47,25 @@ namespace Invoices.Main
         //loads all items from database to combo box
         private void loadItems()
         {
-            //connecting to clsMainLogic
-            clsMainLogic mainLogic = new clsMainLogic();
-
-            //list of all items
-            List<clsItem> itemDetails = mainLogic.GetAllItems();
-
-            //adding items to items drop down
-            for (int i = 0; i < itemDetails.Count; i++)
+            try
             {
-                cbItems.Items.Add(itemDetails[i].itemDescription);
+                //connecting to clsMainLogic
+                clsMainLogic mainLogic = new clsMainLogic();
+
+                //list of all items
+                List<clsItem> itemDetails = mainLogic.GetAllItems();
+
+                //adding items to items drop down
+                for (int i = 0; i < itemDetails.Count; i++)
+                {
+                    cbItems.Items.Add(itemDetails[i].itemDescription);
+                }
+            }
+            catch (Exception ex)
+            {
+                //Throw an exception
+                throw new Exception(MethodInfo.GetCurrentMethod().DeclaringType.Name + "." +
+                                    MethodInfo.GetCurrentMethod().Name + " -> " + ex.Message);
             }
         }
 
