@@ -7,6 +7,18 @@
         mc:Ignorable="d"
         Title="wndItems" Height="450" Width="800">
     <Grid>
-        
+        <Button x:Name="buttonAdd" Content="Add Item" HorizontalAlignment="Left" Margin="34,316,0,0" VerticalAlignment="Top" Click="buttonAdd_Click"/>
+        <Button x:Name="buttonEdit" Content="Edit Item" HorizontalAlignment="Left" Margin="134,316,0,0" VerticalAlignment="Top" Click="buttonEdit_Click"/>
+        <Button x:Name="buttonDelete" Content="Delete Item" HorizontalAlignment="Left" Margin="236,316,0,0" VerticalAlignment="Top" Click="buttonDelete_Click"/>
+
+        <Label x:Name="labelCode" Content="Code: " HorizontalAlignment="Left" Margin="50,43,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="textBoxCode" HorizontalAlignment="Left" Margin="102,47,0,0" TextWrapping="Wrap" Text="Enter Code" VerticalAlignment="Top" Width="120"/>
+        <Label x:Name="labelCost" Content="Cost: " HorizontalAlignment="Left" Margin="50,90,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.722,0.58"/>
+        <TextBox x:Name="textBoxCost" HorizontalAlignment="Left" Margin="102,98,0,0" TextWrapping="Wrap" Text="Enter Cost" VerticalAlignment="Top" Width="120"/>
+        <Label x:Name="labelDesc" Content="Description: " HorizontalAlignment="Left" Margin="10,144,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.406,-2.287"/>
+        <TextBox x:Name="textBoxDesc" HorizontalAlignment="Left" Margin="102,148,0,0" TextWrapping="Wrap" Text="Enter Description" VerticalAlignment="Top" Width="120"/>
+        <DataGrid x:Name="dataGrid" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="343,28,22,43" SelectionChanged="selectedItem"/>
+
+
     </Grid>
 </Window>
